@@ -3,9 +3,7 @@ import pc from "../../../assets/images/pc.png";
 import router from "../../../assets/images/router.webp";
 import switchImg from "../../../assets/images/switch.jpeg";
 import { getUuid } from '../../../utils/others';
-import { AppDragLayer } from '../../commons/DragNDrop/AppDragLayer';
-import { DragNDropContainer } from '../../commons/DragNDrop/DragNDropContainer';
-import BoardItemsContainer from '../../layouts/Board/BoardItemsContainer';
+import FabricCanvas from '../../commons/Fabric/FabricCanvas';
 export const rand = (min = 0, max = 100) => Math.floor(Math.random() * (max - min + 1) + min)
 
 const BoardScreen = () => {
@@ -94,15 +92,19 @@ const BoardScreen = () => {
 
 
     return (
-        <div className="flex flex-col h-full">
-            <div className="flex-grow" ref={containerRef}>
-                <DragNDropContainer dimension={dimension} draggableItems={draggableItems} updateDraggableItems={updateDraggableItems} />
-                <AppDragLayer />
-            </div>
-            <div className="flex-initial px-2.5 mx-8 overflow-hidden shadow-bottomBar	 bg-white rounded-t-3xl">
-                <BoardItemsContainer boardItems={items} />
-            </div>
-        </div>
+        // <div className="flex flex-col h-full">
+        //     <div className="flex-grow" ref={containerRef}>
+        //         <DragNDropContainer dimension={dimension} draggableItems={draggableItems} updateDraggableItems={updateDraggableItems} />
+        //         <AppDragLayer />
+        //     </div>
+        //     <div className="flex-initial px-2.5 mx-8 overflow-hidden shadow-bottomBar	 bg-white rounded-t-3xl">
+        //         <BoardItemsContainer boardItems={items} />
+        //     </div>
+        // </div>
+
+        <FabricCanvas
+            imageSrc={pc}
+        />
     )
 }
 
