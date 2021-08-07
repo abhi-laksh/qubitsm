@@ -63,7 +63,7 @@ export const DraggableBox = React.memo(({ children, isOnBoard, id, title, left, 
             ref={drag}
             style={getStyles(left, top, isDragging, isOnBoard)}
             role="DraggableBox"
-            className="inline-block py-4 px-2.5"
+            className="inline-block py-3.5 px-2"
         >
             <DraggableItem {...props} />
         </div>

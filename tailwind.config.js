@@ -20,8 +20,11 @@ module.exports = {
             borderRadius: {
                 '4xl': '2rem',
             },
-            boxShadow:{
-                'bottomBar': '0px -1px 12px 4px #5c626938',
+            boxShadow: {
+                'bottomBar': '0px 0px 16px -3px #35364057',
+            },
+            lineHeight: {
+                "0": 0
             }
         }
     },

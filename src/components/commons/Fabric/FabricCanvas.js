@@ -1,50 +1,176 @@
-import { fabric } from "fabric";
+import { fabric } from 'fabric';
 import React from 'react';
-import json from '../../../assets/a.json';
+import { getUuid } from '../../../utils/others';
+import { useDrop } from 'react-dnd';
+import { itemTypes } from '../../../constants/dragNDropConstant';
+import update from 'immutability-helper';
 
-const FabricCanvas = React.memo(({ imageSrc }) => {
+fabric.Object.prototype.objectCaching = false;
 
-    const canvasRef = React.useRef();
+const FabricCanvas = React.memo(({
+    preloadFromJson,
+    options = {},
+    getDimention = () => { },
+    draggableItems = {},
+    updateDraggableItems = () => { },
+    ...props
+}) => {
 
-    const [fabricInstance, setFabricInstance] = React.useState()
+    const containerRef = React.useRef(null);
 
+    const [id, _] = React.useState(() => getUuid());
 
-    React.useEffect(() => {
-        if (!!canvasRef.current && !fabricInstance) {
-            setFabricInstance((new fabric.Canvas(canvasRef.current, {
-                width: 600,
-                height: 600,
-                backgroundColor: "#aaa"
-            })));
-        }
-    }, [canvasRef]);
+    const [fabricJS, setFabricJS] = React.useState({
+        canvasId: `canvas_${id}`
+    });
 
+    const { fabricCanvas, canvasId } = fabricJS;
 
-    React.useEffect(() => {
-        if (!!fabricInstance) {
-            // fabricInstance.renderAll();
-            addImage()
-        }
-    }, [fabricInstance]);
-
-    const addImage = () => {
-        if (fabricInstance) {
-            // fabric.Image.fromURL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxswv67cLPgpb1Uvra-Qf944oG9FnezOgNWw&usqp=CAU", (img) => {
-            //     fabricInstance.add(img)
-            // })
-            fabricInstance.loadFromJSON(json, function () {
-                fabricInstance.renderAll();
-                console.log(JSON.stringify(fabricInstance));
-                var json = fabricInstance.toJSON();
-                console.log(JSON.stringify(json))
+    const renderFromJSON = React.useCallback(() => {
+        if (Object.keys(draggableItems).length > 0 && !!fabricCanvas) {
+            fabricCanvas.loadFromJSON({ ...options, objects: Object.values(draggableItems) }, function () {
+                console.log("loadFromJSON");
+                console.log(draggableItems);
+                fabricCanvas.renderAll();
             })
         }
-    };
+    }, [fabricCanvas, JSON.stringify(draggableItems), JSON.stringify(options)]);
+
+    React.useEffect(() => {
+        renderFromJSON();
+    }, [renderFromJSON, JSON.stringify(draggableItems)])
+
+    React.useEffect(() => {
+
+        if ((!!containerRef.current)) {
+
+            setFabricJS({
+                ...fabricJS,
+                height: containerRef.current.offsetHeight,
+                width: containerRef.current.offsetWidth,
+                fabricCanvas: (new fabric.Canvas(canvasId, {
+                    ...options,
+                    height: containerRef.current.offsetHeight,
+                    width: containerRef.current.offsetWidth,
+                }))
+            })
+
+        }
+
+    }, [containerRef]);
+
+    const moveBox = React.useCallback((item, left, top) => {
+
+        const { id } = item
+
+        if (!!draggableItems[id]) {
+            updateDraggableItems(update(draggableItems, {
+                [id]: {
+                    $merge: { left, top },
+                },
+            }));
+
+        } else {
+
+            const uid = getUuid();
+
+            updateDraggableItems({
+                ...draggableItems,
+                [uid]: {
+                    ...item,
+                    left,
+                    top,
+                    id: uid
+                },
+            })
+        }
 
 
+    }, [draggableItems]);
+
+    const [, drop] = useDrop(() => ({
+
+        accept: itemTypes.BOX,
+
+        drop(item, monitor) {
+
+            // const delta = monitor.getDifferenceFromInitialOffset();
+            const delta = monitor.getSourceClientOffset();
+
+            console.log(
+                "delta",
+                monitor.getSourceClientOffset(),
+            );
+
+            let left = delta.x;
+            let top = delta.y;
+
+            // let left = Math.round(item.left + delta.x);
+            // let top = Math.round(item.top + delta.y);
+
+            // const { width, height } = fabricJS;
+
+            // if (!!width && !!height) {
+
+            //     top = top <= 15 ? 15 : top;
+
+            //     // width - ICON_SIZE - OFFSET
+            //     left = (left <= 15) ? 15 : (left >= (width - 48 - 15)) ? (width - 48 - 15) : left;
+
+            // }
+
+            // if (snapToGrid) {
+            //     [left, top] = doSnapToGrid(left, top);
+            // }
+
+            moveBox(item, left, top);
+
+            return item;
+
+        },
+
+
+
+    }), [moveBox]);
+
+    const onObjectMove = function (e) {
+        // target is the box
+        moveBox(e.target, e.target.left, e.target.top);
+    }
+
+
+    React.useEffect(() => {
+        if (!!fabricCanvas) {
+
+            fabricCanvas.on("object:moved", function (e) {
+                // target is the box
+                // TODO: solve crash
+                moveBox(e.target, e.target.left, e.target.top);
+            });
+
+            return () => {
+                fabricCanvas.removeListeners();
+            }
+        }
+
+    }, [fabricCanvas])
 
     return (
-        <canvas ref={canvasRef} />
+
+        <div
+            ref={containerRef}
+            className={"w-full h-full"}
+            id={id}
+        >
+            <div
+                ref={drop}
+                className={"w-full h-full"}
+            >
+                <canvas
+                    id={canvasId}
+                />
+            </div>
+        </div>
     )
 })
 

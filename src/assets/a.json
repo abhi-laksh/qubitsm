@@ -1,15 +1,14 @@
 {
-    "version": "4.5.1",
     "objects": [
         {
             "type": "image",
             "version": "4.5.1",
             "originX": "left",
             "originY": "top",
-            "left": 0,
-            "top": 0,
-            "width": 259,
-            "height": 194,
+            "left": 1281,
+            "top": 1,
+            "width": 200,
+            "height": 200,
             "fill": "rgb(0,0,0)",
             "stroke": null,
             "strokeWidth": 0,
@@ -117,6 +116,5 @@
             "crossOrigin": null,
             "filters": []
         }
-    ],
-    "background": "#aaa"
+    ]
 }

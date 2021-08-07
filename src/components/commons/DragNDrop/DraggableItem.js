@@ -10,7 +10,11 @@ const Dstyles = {
 const DraggableItem = React.memo(({ preview, title, name, description, src }) => {
     return (
         <div title={title} style={preview ? Dstyles : undefined}>
-            {src && <img width={48} height={48} src={src} alt={name} />}
+            {src && <img
+                src={src}
+                alt={name}
+                className="w-8 h-8 object-contain"
+            />}
         </div>
     )
 })

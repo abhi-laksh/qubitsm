@@ -12,7 +12,12 @@ const styles = {
     position: 'relative',
 };
 
-export const DragNDropContainer = ({ dimension = {}, snapToGrid, draggableItems = {}, updateDraggableItems = () => { } }) => {
+export const DragNDropContainer = ({
+    dimension = {},
+    snapToGrid,
+    draggableItems = {},
+    updateDraggableItems = () => { }
+}) => {
 
     /*
         @var: draggableItems
@@ -79,7 +84,6 @@ export const DragNDropContainer = ({ dimension = {}, snapToGrid, draggableItems 
             }
 
             if (snapToGrid) {
-                ;
                 [left, top] = doSnapToGrid(left, top);
             }
 
@@ -89,7 +93,7 @@ export const DragNDropContainer = ({ dimension = {}, snapToGrid, draggableItems 
 
         },
 
-         
+
 
     }), [moveBox]);
 

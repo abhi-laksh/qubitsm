@@ -12,7 +12,7 @@ const BoardItemsContainer = ({ boardItems = {} }) => {
     }
 
     return (
-        <div class="flex">
+        <div class="flex items-center leading-0">
             {Object.keys(boardItems).map(Item)}
         </div>
     )
