@@ -25,6 +25,9 @@ module.exports = {
             },
             lineHeight: {
                 "0": 0
+            },
+            zIndex: {
+                '-1': -1
             }
         }
     },

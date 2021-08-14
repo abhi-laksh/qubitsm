@@ -1,6 +1,6 @@
 import React from 'react';
 import json from '../../../assets/a.json';
-import pc from "../../../assets/images/pc.png";
+import pc from "../../../assets/images/com";
 import router from "../../../assets/images/router.webp";
 // import switchImg from "../../../assets/images/switch.jpeg";
 import { accessPointTypes } from '../../../constants/dragNDropConstant';
@@ -17,7 +17,7 @@ const BoardScreen = () => {
 
     const [items, setItems] = React.useState({
         [accessPointTypes.COMPUTER]: {
-            src: `${process.env.REACT_APP_IMAGE_URL}/pc.png`,
+            src: `${process.env.REACT_APP_IMAGE_URL}/pc.svg`,
             title: "this is a computer",
             name: accessPointTypes.COMPUTER,
             // "width": 36,
@@ -37,7 +37,7 @@ const BoardScreen = () => {
         },
 
         [accessPointTypes.ROUTER]: {
-            src: `${process.env.REACT_APP_IMAGE_URL}/router.webp`,
+            src: `${process.env.REACT_APP_IMAGE_URL}/router.svg`,
             src: router,
             title: "this is a router",
             name: accessPointTypes.ROUTER,
@@ -48,7 +48,7 @@ const BoardScreen = () => {
         },
 
         [accessPointTypes.SWITCH]: {
-            src: `${process.env.REACT_APP_IMAGE_URL}/switch.jpeg`,
+            src: `${process.env.REACT_APP_IMAGE_URL}/switch.svg`,
             title: "this is a switch",
             name: accessPointTypes.SWITCH,
             "width": 36,

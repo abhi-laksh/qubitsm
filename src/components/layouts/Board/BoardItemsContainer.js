@@ -5,14 +5,14 @@ const BoardItemsContainer = ({ boardItems = {} }) => {
 
     const Item = (each, index) => {
         return (
-            <div class="flex-none">
-                <DraggableBox id={each}  key={each} {...boardItems[each]} />
+            <div key={each} className="flex-none">
+                <DraggableBox id={each}  {...boardItems[each]} />
             </div>
         )
     }
 
     return (
-        <div class="flex items-center leading-0">
+        <div className="flex items-center leading-0">
             {Object.keys(boardItems).map(Item)}
         </div>
     )
