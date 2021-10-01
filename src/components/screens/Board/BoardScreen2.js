@@ -1,6 +1,5 @@
 import React from 'react';
 import { accessPointTypes } from '../../../constants/dragNDropConstant';
-import BoardItemsContainer from '../../layouts/Board/BoardItemsContainer';
 import ArtBoardScreen from './ArtBoardScreen';
 
 
@@ -54,20 +53,12 @@ const BoardScreen = () => {
     console.log('===========draggableItems=========================');
 
     return (
-        <div tabIndex="1" className="relative h-full z-0">
 
-            <ArtBoardScreen
+        <ArtBoardScreen
             updateDraggableItems={updateDraggableItems}
             draggableItems={draggableItems}
-            />
-            <div className="absolute bottom-0 left-0 px-8 w-full">
-                <div
-                    className="px-2.5 overflow-hidden shadow-bottomBar bg-white rounded-t-3xl"
-                >
-                    <BoardItemsContainer boardItems={items} />
-                </div>
-            </div>
-        </div>
+            items={items}
+        />
     )
 }
 
